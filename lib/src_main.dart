@@ -78,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 elevation: 12,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withValues(alpha: 0.06),
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: Column(
@@ -131,7 +131,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderRadius: BorderRadius.circular(14),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black.withOpacity(0.12),
+                                color: Colors.black.withValues(alpha: 0.12),
                                 blurRadius: 12,
                                 offset: const Offset(0, 6))
                           ],
