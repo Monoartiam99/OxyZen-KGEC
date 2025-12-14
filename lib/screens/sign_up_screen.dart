@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'doctor_onboarding_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -76,20 +77,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // Logo
                           Center(
                             child: Container(
-                              width: 120,
-                              height: 120,
+                              width: 140,
+                              height: 140,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                                 border: Border.all(
-                                    color: Colors.grey.shade300, width: 6),
+                                    color: Colors.grey.shade300, width: 4),
                               ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  'assets/logo.png',
-                                  width: 120,
-                                  height: 120,
+                              clipBehavior: Clip.antiAlias,
+                              child: Transform.scale(
+                                scale: 1.08,
+                                child: SvgPicture.asset(
+                                  'assets/logo.svg',
                                   fit: BoxFit.cover,
+                                  alignment: Alignment.center,
                                 ),
                               ),
                             ),

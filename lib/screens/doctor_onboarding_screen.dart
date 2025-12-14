@@ -29,9 +29,16 @@ class _QualificationEntry {
 }
 
 class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
+  final _loginFormKey = GlobalKey<FormState>();
   final _pageController = PageController();
   final _forms = List.generate(6, (_) => GlobalKey<FormState>());
   int _step = 0;
+
+  // Simple doctor login
+  final _appIdCtrl = TextEditingController();
+  final _appPasswordCtrl = TextEditingController();
+  bool _obscureAppPassword = true;
+  bool _appLoginLoading = false;
 
   // Page 1
   final _phoneCtrl = TextEditingController();
@@ -79,6 +86,8 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    _appIdCtrl.dispose();
+    _appPasswordCtrl.dispose();
     _phoneCtrl.dispose();
     _emailCtrl.dispose();
     _fullNameCtrl.dispose();
@@ -171,6 +180,75 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
   void _showToast(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Future<void> _submitDoctorLogin() async {
+    final form = _loginFormKey.currentState;
+    if (form == null || !form.validate()) return;
+    setState(() => _appLoginLoading = true);
+    await Future.delayed(const Duration(milliseconds: 800));
+    if (!mounted) return;
+    setState(() => _appLoginLoading = false);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Doctor login (mock)')));
+    Navigator.of(context).pop();
+  }
+
+  Widget _buildDoctorLoginForm() {
+    return Form(
+      key: _loginFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: _appIdCtrl,
+            decoration: _inputDecoration('App ID'),
+            validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+          ),
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: _appPasswordCtrl,
+            obscureText: _obscureAppPassword,
+            decoration: _inputDecoration('Password').copyWith(
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureAppPassword ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () =>
+                    setState(() => _obscureAppPassword = !_obscureAppPassword),
+              ),
+            ),
+            validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: _appLoginLoading ? null : _submitDoctorLogin,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2E8B22),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: _appLoginLoading
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: Colors.white),
+                    )
+                  : const Text('Login',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildStepIndicator() {
@@ -453,6 +531,45 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.fromLogin) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Doctor Login'),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              elevation: 4,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text('Enter your App ID and password',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    Text('Use the credentials provided to doctors.',
+                        style: TextStyle(color: Colors.grey.shade700)),
+                    const SizedBox(height: 16),
+                    _buildDoctorLoginForm(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Doctor Verification'),
