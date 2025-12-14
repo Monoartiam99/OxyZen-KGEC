@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/login_screen.dart';
 import 'screens/sign_up_screen.dart';
+import 'screens/app_onboarding_screen.dart';
 
 void main() => runApp(const SignUpProtoApp());
 
@@ -17,9 +18,28 @@ class SignUpProtoApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         textTheme: GoogleFonts.interTextTheme(base),
       ),
-      home: const AuthGateway(),
+      home: const AppEntry(),
       debugShowCheckedModeBanner: false,
     );
+  }
+}
+
+class AppEntry extends StatefulWidget {
+  const AppEntry({super.key});
+
+  @override
+  State<AppEntry> createState() => _AppEntryState();
+}
+
+class _AppEntryState extends State<AppEntry> {
+  bool _onboardingDone = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_onboardingDone) return const AuthGateway();
+    return AppOnboardingScreen(onFinished: () {
+      setState(() => _onboardingDone = true);
+    });
   }
 }
 
