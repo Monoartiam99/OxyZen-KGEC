@@ -1,4 +1,4 @@
-# Oxygen App (Flutter)
+# OxyZen App 
 
 Oxygen is a Flutter prototype that walks patients and doctors through onboarding, sign up, and login screens. All flows are client-side only (no real authentication or file uploads yet) and meant to showcase the UI/UX.
 
