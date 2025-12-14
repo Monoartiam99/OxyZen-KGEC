@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'doctor_onboarding_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSwitchToLogin;
@@ -16,6 +17,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailCtrl = TextEditingController();
   String _gender = 'Male';
   bool _loading = false;
+
+  void _doctorSignUp() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const DoctorOnboardingScreen(fromLogin: false),
+      ),
+    );
+  }
 
   Future<void> _continue() async {
     if (!_formKey.currentState!.validate()) return;
@@ -41,7 +50,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 0,
       ),
       body: SafeArea(
@@ -171,6 +182,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // Doctor Sign Up Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 48,
+                                  child: OutlinedButton(
+                                    onPressed: _doctorSignUp,
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: const Color(0xFF2E8B22),
+                                      side: const BorderSide(
+                                          color: Color(0xFF2E8B22)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Doctor Sign Up',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 12),

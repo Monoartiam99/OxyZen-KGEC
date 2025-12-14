@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'doctor_onboarding_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onSwitchToSignUp;
@@ -15,6 +16,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordCtrl = TextEditingController();
   bool _obscurePassword = true;
   bool _loading = false;
+
+  void _doctorLogin() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const DoctorOnboardingScreen(fromLogin: true),
+      ),
+    );
+  }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
@@ -42,7 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 0,
       ),
       body: SafeArea(
@@ -161,6 +172,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // Doctor Login Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 48,
+                                  child: OutlinedButton(
+                                    onPressed: _doctorLogin,
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: const Color(0xFF2E8B22),
+                                      side: const BorderSide(
+                                          color: Color(0xFF2E8B22)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Doctor Login',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 12),
