@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DoctorOnboardingScreen extends StatefulWidget {
   final bool fromLogin;
@@ -101,15 +102,37 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
     super.dispose();
   }
 
-  InputDecoration _inputDecoration(String hint) => InputDecoration(
+  InputDecoration _inputDecoration(String hint, {IconData? icon}) =>
+      InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: const Color(0xFFF5F5F5),
+        fillColor: const Color(0xFFF8FFFE),
+        prefixIcon: icon != null
+            ? Icon(icon, color: const Color(0xFF2E8B22), size: 22)
+            : null,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 1.5),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFF2E8B22), width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
+        ),
       );
 
   Future<void> _next() async {
@@ -200,50 +223,141 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
+          // App ID Field with Icon
           TextFormField(
             controller: _appIdCtrl,
-            decoration: _inputDecoration('App ID'),
-            validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+            decoration: _inputDecoration('Enter your App ID',
+                icon: Icons.badge_outlined),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            validator: (v) =>
+                v == null || v.trim().isEmpty ? 'App ID is required' : null,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
+          // Password Field with Icon and Toggle
           TextFormField(
             controller: _appPasswordCtrl,
             obscureText: _obscureAppPassword,
-            decoration: _inputDecoration('Password').copyWith(
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            decoration: _inputDecoration('Enter your password',
+                    icon: Icons.lock_outline)
+                .copyWith(
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscureAppPassword ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
+                  _obscureAppPassword
+                      ? Icons.visibility_off_rounded
+                      : Icons.visibility_rounded,
+                  color: const Color(0xFF2E8B22),
+                  size: 22,
                 ),
                 onPressed: () =>
                     setState(() => _obscureAppPassword = !_obscureAppPassword),
               ),
             ),
-            validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+            validator: (v) =>
+                v == null || v.isEmpty ? 'Password is required' : null,
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: ElevatedButton(
-              onPressed: _appLoginLoading ? null : _submitDoctorLogin,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E8B22),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+          const SizedBox(height: 10),
+          // Forgot Password Link
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('Password recovery coming soon')),
+                );
+              },
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              ),
+              child: const Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  color: Color(0xFF2E8B22),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              child: _appLoginLoading
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2, color: Colors.white),
-                    )
-                  : const Text('Login',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // Modern Login Button with Gradient
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF2E8B22),
+                  Color(0xFF3FA832),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF2E8B22).withOpacity(0.4),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+                BoxShadow(
+                  color: const Color(0xFF2E8B22).withOpacity(0.2),
+                  blurRadius: 28,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(14),
+              child: InkWell(
+                onTap: _appLoginLoading ? null : _submitDoctorLogin,
+                borderRadius: BorderRadius.circular(14),
+                splashColor: Colors.white.withOpacity(0.2),
+                highlightColor: Colors.white.withOpacity(0.1),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  alignment: Alignment.center,
+                  child: _appLoginLoading
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 3, color: Colors.white),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.login_rounded,
+                                color: Colors.white, size: 22),
+                            SizedBox(width: 10),
+                            Text(
+                              'Login as Doctor',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          // Help Text
+          Center(
+            child: Text(
+              'Secure access for verified medical professionals',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -533,36 +647,217 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
   Widget build(BuildContext context) {
     if (widget.fromLogin) {
       return Scaffold(
+        backgroundColor: const Color(0xFFF5F9F7),
         appBar: AppBar(
-          title: const Text('Doctor Login'),
+          title: const Text(
+            'Doctor Login',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
-          foregroundColor: Colors.black,
+          foregroundColor: const Color(0xFF1A1A1A),
           elevation: 0,
+          centerTitle: true,
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              elevation: 4,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text('Enter your App ID and password',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 8),
-                    Text('Use the credentials provided to doctors.',
-                        style: TextStyle(color: Colors.grey.shade700)),
-                    const SizedBox(height: 16),
-                    _buildDoctorLoginForm(),
-                  ],
-                ),
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo Header - Modern 3D Style with Gradient and Glow
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Outer glow effect
+                      Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: RadialGradient(
+                            colors: [
+                              const Color(0xFF2E8B22).withOpacity(0.15),
+                              const Color(0xFF2E8B22).withOpacity(0.05),
+                              Colors.transparent,
+                            ],
+                            stops: const [0.0, 0.6, 1.0],
+                          ),
+                        ),
+                      ),
+                      // Gradient border ring
+                      Container(
+                        width: 115,
+                        height: 115,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF2E8B22),
+                              Color(0xFF3FA832),
+                              Color(0xFF52C441),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF2E8B22).withOpacity(0.4),
+                              blurRadius: 24,
+                              offset: const Offset(0, 10),
+                              spreadRadius: 0,
+                            ),
+                            BoxShadow(
+                              color: const Color(0xFF2E8B22).withOpacity(0.2),
+                              blurRadius: 40,
+                              offset: const Offset(0, 20),
+                              spreadRadius: -5,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Inner white container
+                      Container(
+                        width: 108,
+                        height: 108,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Logo
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipOval(
+                          child: SvgPicture.asset(
+                            'assets/logo.svg',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      // Glossy overlay effect
+                      Positioned(
+                        top: 10,
+                        left: 15,
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.3),
+                                Colors.white.withOpacity(0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 28),
+                  // Login Card
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 30,
+                          offset: const Offset(0, 10),
+                          spreadRadius: 0,
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Title Section
+                          Column(
+                            children: [
+                              const Text(
+                                'Professional Access',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF1A1A1A),
+                                  letterSpacing: 0.3,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Enter your credentials to access the doctor portal',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          _buildDoctorLoginForm(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  // Additional Help Section
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0F8F4),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFF2E8B22).withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          color: const Color(0xFF2E8B22),
+                          size: 22,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Need access? Contact your administrator for credentials.',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade700,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

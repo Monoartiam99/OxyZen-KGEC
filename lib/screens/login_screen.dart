@@ -441,45 +441,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 // Footer Section
-                Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? ",
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account? ",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: widget.onSwitchToSignUp,
+                        child: const Text(
+                          'Sign Up',
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF2E8B22),
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        GestureDetector(
-                          onTap: widget.onSwitchToSignUp,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2E8B22).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Text(
-                              'Create Account',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF2E8B22),
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
