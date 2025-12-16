@@ -188,6 +188,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   value: 'Female',
                                   child: Text('Female'),
                                 ),
+                                DropdownMenuItem(
+                                  value: 'Other',
+                                  child: Text('Other'),
+                                ),
                               ],
                               onChanged: (v) =>
                                   setState(() => _gender = v ?? _gender),
