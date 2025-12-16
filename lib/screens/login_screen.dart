@@ -180,76 +180,153 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 20),
 
-                            // Login Button
+                            // Login Button - Modern Gradient Style
                             Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF2E8B22),
+                                    Color(0xFF3FA832),
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.3),
+                                        .withOpacity(0.4),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 6),
+                                    spreadRadius: 0,
+                                  ),
+                                  BoxShadow(
+                                    color: const Color(0xFF2E8B22)
+                                        .withOpacity(0.2),
+                                    blurRadius: 32,
+                                    offset: const Offset(0, 12),
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(16),
+                                child: InkWell(
+                                  onTap: _loading ? null : _login,
+                                  borderRadius: BorderRadius.circular(16),
+                                  splashColor: Colors.white.withOpacity(0.2),
+                                  highlightColor: Colors.white.withOpacity(0.1),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 56,
+                                    alignment: Alignment.center,
+                                    child: _loading
+                                        ? const SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 3,
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.login_rounded,
+                                                color: Colors.white,
+                                                size: 22,
+                                              ),
+                                              const SizedBox(width: 10),
+                                              const Text(
+                                                'Login',
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                  letterSpacing: 0.8,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Doctor Login Button - Glassmorphism Style
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xFF2E8B22).withOpacity(0.08),
+                                    const Color(0xFF3FA832).withOpacity(0.12),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                border: Border.all(
+                                  color:
+                                      const Color(0xFF2E8B22).withOpacity(0.3),
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF2E8B22)
+                                        .withOpacity(0.1),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
                                 ],
                               ),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: ElevatedButton(
-                                  onPressed: _loading ? null : _login,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2E8B22),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    elevation: 0,
-                                  ),
-                                  child: _loading
-                                      ? const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                            strokeWidth: 2.5,
+                              child: Material(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(16),
+                                child: InkWell(
+                                  onTap: _doctorLogin,
+                                  borderRadius: BorderRadius.circular(16),
+                                  splashColor:
+                                      const Color(0xFF2E8B22).withOpacity(0.1),
+                                  highlightColor:
+                                      const Color(0xFF2E8B22).withOpacity(0.05),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 54,
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(6),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2E8B22)
+                                                .withOpacity(0.15),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                        )
-                                      : const Text(
-                                          'Login',
+                                          child: const Icon(
+                                            Icons.medical_services_rounded,
+                                            color: Color(0xFF2E8B22),
+                                            size: 18,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        const Text(
+                                          'Doctor Login',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
-                                            color: Colors.white,
+                                            color: Color(0xFF2E8B22),
                                             letterSpacing: 0.5,
                                           ),
                                         ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Doctor Login Button
-                            SizedBox(
-                              width: double.infinity,
-                              height: 48,
-                              child: OutlinedButton(
-                                onPressed: _doctorLogin,
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: const Color(0xFF2E8B22),
-                                  side: const BorderSide(
-                                    color: Color(0xFF2E8B22),
-                                    width: 1.5,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: const Text(
-                                  'Doctor Login',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.3,
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
