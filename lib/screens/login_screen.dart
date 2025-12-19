@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'doctor_onboarding_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onSwitchToSignUp;
@@ -31,8 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = true);
     await Future.delayed(const Duration(milliseconds: 900));
     setState(() => _loading = false);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Login (mock)')));
+
+    // Navigate to home screen after successful login
+    if (mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+        ),
+      );
+    }
   }
 
   InputDecoration _inputDecoration(String hint, {Widget? suffixIcon}) =>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'doctor_onboarding_screen.dart';
+import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSwitchToLogin;
@@ -33,8 +34,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() => _loading = true);
     await Future.delayed(const Duration(milliseconds: 900));
     setState(() => _loading = false);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Continue (mock)')));
+
+    // Navigate to home screen after successful sign up
+    if (mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+        ),
+      );
+    }
   }
 
   InputDecoration _inputDecoration(String hint) => InputDecoration(
@@ -363,6 +371,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 borderSide: const BorderSide(
                   color: Color(0xFF2E8B22),
                   width: 2,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Sign Up Button - Modern Gradient Style
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF2E8B22),
+                  Color(0xFF3FA832),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF2E8B22).withOpacity(0.4),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: const Color(0xFF2E8B22).withOpacity(0.2),
+                  blurRadius: 32,
+                  offset: const Offset(0, 12),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+              child: InkWell(
+                onTap: _loading ? null : _continue,
+                borderRadius: BorderRadius.circular(16),
+                splashColor: Colors.white.withOpacity(0.2),
+                highlightColor: Colors.white.withOpacity(0.1),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  alignment: Alignment.center,
+                  child: _loading
+                      ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.person_add_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 10),
+                            const Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
               ),
             ),
