@@ -68,235 +68,205 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFFFAFCFB),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Container(
-            height: screenHeight -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFFAFCFB), Color(0xFFF0F8F4)],
-              ),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFFAFCFB), Color(0xFFF0F8F4)],
             ),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header with Logo
-                Flexible(
-                  flex: 1,
-                  child: Center(
-                    child: Container(
-                      width: 85,
-                      height: 85,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF2E8B22).withOpacity(0.15),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: ClipOval(
-                        child: SvgPicture.asset(
-                          'assets/logo.svg',
-                          fit: BoxFit.contain,
+                Center(
+                  child: Container(
+                    width: 85,
+                    height: 85,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF2E8B22).withOpacity(0.15),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
                         ),
+                      ],
+                    ),
+                    child: ClipOval(
+                      child: SvgPicture.asset(
+                        'assets/logo.svg',
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
                 ),
-
-                // Welcome Text
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Create Account',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF1A1A1A),
-                          letterSpacing: 0.5,
-                        ),
+                const SizedBox(height: 18),
+                Column(
+                  children: [
+                    const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF1A1A1A),
+                        letterSpacing: 0.5,
                       ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Join us for better health management',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      // User Type Selection
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Patient Checkbox
-                          GestureDetector(
-                            onTap: () => setState(() => _userType = 'patient'),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: _userType == 'patient'
-                                          ? const Color(0xFF2E8B22)
-                                          : Colors.grey.shade300,
-                                      width: _userType == 'patient' ? 2 : 1.5,
-                                    ),
-                                    color: _userType == 'patient'
-                                        ? const Color(0xFF2E8B22)
-                                            .withOpacity(0.1)
-                                        : Colors.transparent,
-                                  ),
-                                  child: _userType == 'patient'
-                                      ? const Center(
-                                          child: Icon(
-                                            Icons.check,
-                                            size: 12,
-                                            color: Color(0xFF2E8B22),
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Patient',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF1A1A1A),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 28),
-                          // Doctor Checkbox
-                          GestureDetector(
-                            onTap: () => setState(() => _userType = 'doctor'),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: _userType == 'doctor'
-                                          ? const Color(0xFF2E8B22)
-                                          : Colors.grey.shade300,
-                                      width: _userType == 'doctor' ? 2 : 1.5,
-                                    ),
-                                    color: _userType == 'doctor'
-                                        ? const Color(0xFF2E8B22)
-                                            .withOpacity(0.1)
-                                        : Colors.transparent,
-                                  ),
-                                  child: _userType == 'doctor'
-                                      ? const Center(
-                                          child: Icon(
-                                            Icons.check,
-                                            size: 12,
-                                            color: Color(0xFF2E8B22),
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Doctor',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF1A1A1A),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Form Section
-                Flexible(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SingleChildScrollView(
-                      child: _userType == 'patient'
-                          ? _buildPatientForm()
-                          : _buildDoctorForm(),
                     ),
-                  ),
-                ),
-
-                // Bottom Section - Login Link
-                Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
+                    const SizedBox(height: 6),
+                    Text(
+                      'Join us for better health management',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Already have an account? ',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w500,
+                        GestureDetector(
+                          onTap: () => setState(() => _userType = 'patient'),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: _userType == 'patient'
+                                        ? const Color(0xFF2E8B22)
+                                        : Colors.grey.shade300,
+                                    width: _userType == 'patient' ? 2 : 1.5,
+                                  ),
+                                  color: _userType == 'patient'
+                                      ? const Color(0xFF2E8B22).withOpacity(0.1)
+                                      : Colors.transparent,
+                                ),
+                                child: _userType == 'patient'
+                                    ? const Center(
+                                        child: Icon(
+                                          Icons.check,
+                                          size: 12,
+                                          color: Color(0xFF2E8B22),
+                                        ),
+                                      )
+                                    : null,
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                'Patient',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1A1A1A),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(width: 28),
                         GestureDetector(
-                          onTap: widget.onSwitchToLogin,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2E8B22).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Text(
-                              'Login Now',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF2E8B22),
-                                fontWeight: FontWeight.w700,
+                          onTap: () => setState(() => _userType = 'doctor'),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: _userType == 'doctor'
+                                        ? const Color(0xFF2E8B22)
+                                        : Colors.grey.shade300,
+                                    width: _userType == 'doctor' ? 2 : 1.5,
+                                  ),
+                                  color: _userType == 'doctor'
+                                      ? const Color(0xFF2E8B22).withOpacity(0.1)
+                                      : Colors.transparent,
+                                ),
+                                child: _userType == 'doctor'
+                                    ? const Center(
+                                        child: Icon(
+                                          Icons.check,
+                                          size: 12,
+                                          color: Color(0xFF2E8B22),
+                                        ),
+                                      )
+                                    : null,
                               ),
-                            ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                'Doctor',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1A1A1A),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
+                const SizedBox(height: 24),
+                _userType == 'patient'
+                    ? _buildPatientForm()
+                    : _buildDoctorForm(),
+                const SizedBox(height: 28),
+                _buildLoginPrompt(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLoginPrompt() {
+    return Column(
+      children: [
+        Text(
+          'Already have an account? ',
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey[700],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        GestureDetector(
+          onTap: widget.onSwitchToLogin,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2E8B22).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              'Login Now',
+              style: TextStyle(
+                fontSize: 13,
+                color: Color(0xFF2E8B22),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

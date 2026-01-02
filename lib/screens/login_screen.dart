@@ -188,83 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 20),
 
-                            // Login Button - Modern Gradient Style
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF2E8B22),
-                                    Color(0xFF3FA832),
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.4),
-                                    blurRadius: 16,
-                                    offset: const Offset(0, 6),
-                                    spreadRadius: 0,
-                                  ),
-                                  BoxShadow(
-                                    color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.2),
-                                    blurRadius: 32,
-                                    offset: const Offset(0, 12),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  onTap: _loading ? null : _login,
-                                  borderRadius: BorderRadius.circular(16),
-                                  splashColor: Colors.white.withOpacity(0.2),
-                                  highlightColor: Colors.white.withOpacity(0.1),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 56,
-                                    alignment: Alignment.center,
-                                    child: _loading
-                                        ? const SizedBox(
-                                            height: 24,
-                                            width: 24,
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                              strokeWidth: 3,
-                                            ),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.login_rounded,
-                                                color: Colors.white,
-                                                size: 22,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              const Text(
-                                                'Login',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                  letterSpacing: 0.8,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
                             // Doctor Login Button - Glassmorphism Style
                             Container(
                               decoration: BoxDecoration(
@@ -409,6 +332,83 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
+
+                            // Login Button - Modern Gradient Style now sits under Google
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF2E8B22),
+                                    Color(0xFF3FA832),
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF2E8B22)
+                                        .withOpacity(0.4),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 6),
+                                    spreadRadius: 0,
+                                  ),
+                                  BoxShadow(
+                                    color: const Color(0xFF2E8B22)
+                                        .withOpacity(0.2),
+                                    blurRadius: 32,
+                                    offset: const Offset(0, 12),
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(16),
+                                child: InkWell(
+                                  onTap: _loading ? null : _login,
+                                  borderRadius: BorderRadius.circular(16),
+                                  splashColor: Colors.white.withOpacity(0.2),
+                                  highlightColor: Colors.white.withOpacity(0.1),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 56,
+                                    alignment: Alignment.center,
+                                    child: _loading
+                                        ? const SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 3,
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.login_rounded,
+                                                color: Colors.white,
+                                                size: 22,
+                                              ),
+                                              const SizedBox(width: 10),
+                                              const Text(
+                                                'Login',
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                  letterSpacing: 0.8,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
 
                             // Apple Button
                             SizedBox(
