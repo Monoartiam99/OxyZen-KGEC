@@ -43,3 +43,4 @@ flutter run -d chrome # run on web
 - If no devices show up, run `flutter devices` to confirm emulators are running.
 - For web builds, ensure Chrome/Edge/Safari is installed and `flutter config --enable-web` is set.
 - If assets fail to load, verify the files exist under `assets/` and that `flutter pub get` has run.
+- For clean the previous build run the command `flutter clean` .
