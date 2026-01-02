@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../models/specialty.dart';
 import 'specialty_detail_screen.dart';
@@ -50,19 +52,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: _surfaceBg,
+      backgroundColor: Colors.transparent,
       drawer: _buildDrawer(),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _buildHero(context)),
-            SliverToBoxAdapter(child: _buildQuickActions()),
-            SliverToBoxAdapter(child: _buildCareBanner()),
-            SliverToBoxAdapter(child: _buildServicesRow()),
-            SliverToBoxAdapter(child: _buildProceduresCard()),
-            SliverToBoxAdapter(child: _buildAskCareCard()),
-            SliverToBoxAdapter(child: const SizedBox(height: 16)),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFe9f6ee), Color(0xFFd9efe3), Color(0xFFcde7da)],
+          ),
+        ),
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: _buildHero(context)),
+              SliverToBoxAdapter(child: _buildQuickActions()),
+              SliverToBoxAdapter(child: _buildCareBanner()),
+              SliverToBoxAdapter(child: _buildServicesRow()),
+              SliverToBoxAdapter(child: _buildProceduresCard()),
+              SliverToBoxAdapter(child: _buildAskCareCard()),
+              SliverToBoxAdapter(child: const SizedBox(height: 24)),
+            ],
+          ),
         ),
       ),
     );
@@ -72,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [_primaryGreen, _secondaryGreen],
+          colors: [Color(0xE62E8B22), Color(0xD03FA832)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -155,8 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 18),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.white.withOpacity(0.85),
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white.withOpacity(0.35)),
               ),
               child: TextField(
                 controller: _searchController,
@@ -245,53 +257,61 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
     required Color color,
   }) {
+    final cardWidth = (MediaQuery.of(context).size.width - 16 * 2 - 12) / 2;
     return SizedBox(
-      width: (MediaQuery.of(context).size.width - 16 * 2 - 12) / 2,
+      width: cardWidth,
       child: InkWell(
         onTap: () => _handleQuickAction(title),
         borderRadius: BorderRadius.circular(18),
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: _cardTint,
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 6),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.72),
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.white.withOpacity(0.35)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 16,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.14),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, color: color, size: 22),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey.shade900,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.grey.shade900,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -304,8 +324,16 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: _softCardTint,
+          color: Colors.white.withOpacity(0.7),
           borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Colors.white.withOpacity(0.35)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -392,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return InkWell(
             onTap: () => _handleServiceChip(item['label'] as String),
             child: Chip(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.white.withOpacity(0.72),
               labelPadding: const EdgeInsets.symmetric(horizontal: 8),
               avatar: Icon(item['icon'] as IconData,
                   size: 18, color: _primaryGreen),
@@ -417,11 +445,15 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            colors: [Color(0xFFDFF4E5), Color(0xFFF2FAF5)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Colors.white.withOpacity(0.7),
+          border: Border.all(color: Colors.white.withOpacity(0.35)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -495,8 +527,19 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: _primaryGreen,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF2E8B22), Color(0xCC3FA832)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -562,8 +605,8 @@ class _HomeScreenState extends State<HomeScreen> {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade200,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
