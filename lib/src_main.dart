@@ -46,12 +46,14 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _obscure = true;
   bool _loading = false;
 
-  void _signIn() async {
+  Future<void> _signIn() async {
     setState(() => _loading = true);
     await Future.delayed(const Duration(milliseconds: 800));
+    if (!mounted) return;
     setState(() => _loading = false);
     debugPrint(
         'Sign-in with: ${_emailController.text} / ${_passwordController.text}');
+    if (!mounted) return;
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Signed in (prototype)')));
   }
@@ -96,8 +98,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               Container(
                                 height: 36,
                                 width: 36,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xFF0B69FF),
+                                decoration: const BoxDecoration(
+                                    color: Color(0xFF0B69FF),
                                     shape: BoxShape.circle),
                                 alignment: Alignment.center,
                                 child: const Text('OZ',
@@ -107,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                         fontSize: 12)),
                               ),
                               const SizedBox(width: 12),
-                              Text('Welcome back',
+                              const Text('Welcome back',
                                   style: TextStyle(
                                       fontSize: 28,
                                       fontWeight: FontWeight.w700,
@@ -186,7 +188,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       style: TextStyle(fontSize: 16)),
                             ),
                             const SizedBox(height: 14),
-                            Row(children: const [
+                            const Row(children: [
                               Expanded(child: Divider()),
                               Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 8),

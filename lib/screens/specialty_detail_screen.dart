@@ -46,7 +46,7 @@ class SpecialtyDetailScreen extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       bgColor,
-                      bgColor.withOpacity(0.7),
+                      bgColor.withValues(alpha: 0.7),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -61,7 +61,7 @@ class SpecialtyDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -145,10 +145,10 @@ class SpecialtyDetailScreen extends StatelessWidget {
                     (service) => Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       decoration: BoxDecoration(
-                        color: bgColor.withOpacity(0.3),
+                        color: bgColor.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: bgColor.withOpacity(0.5),
+                          color: bgColor.withValues(alpha: 0.5),
                           width: 1,
                         ),
                       ),

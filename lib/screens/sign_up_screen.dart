@@ -93,7 +93,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF2E8B22).withOpacity(0.15),
+                          color:
+                              const Color(0xFF2E8B22).withValues(alpha: 0.15),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -148,7 +149,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     width: _userType == 'patient' ? 2 : 1.5,
                                   ),
                                   color: _userType == 'patient'
-                                      ? const Color(0xFF2E8B22).withOpacity(0.1)
+                                      ? const Color(0xFF2E8B22)
+                                          .withValues(alpha: 0.1)
                                       : Colors.transparent,
                                 ),
                                 child: _userType == 'patient'
@@ -190,7 +192,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     width: _userType == 'doctor' ? 2 : 1.5,
                                   ),
                                   color: _userType == 'doctor'
-                                      ? const Color(0xFF2E8B22).withOpacity(0.1)
+                                      ? const Color(0xFF2E8B22)
+                                          .withValues(alpha: 0.1)
                                       : Colors.transparent,
                                 ),
                                 child: _userType == 'doctor'
@@ -253,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               vertical: 8,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFF2E8B22).withOpacity(0.1),
+              color: const Color(0xFF2E8B22).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Text(
@@ -361,13 +364,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF2E8B22).withOpacity(0.4),
+                  color: const Color(0xFF2E8B22).withValues(alpha: 0.4),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                   spreadRadius: 0,
                 ),
                 BoxShadow(
-                  color: const Color(0xFF2E8B22).withOpacity(0.2),
+                  color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
                   blurRadius: 32,
                   offset: const Offset(0, 12),
                   spreadRadius: 0,
@@ -380,8 +383,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: InkWell(
                 onTap: _loading ? null : _continue,
                 borderRadius: BorderRadius.circular(16),
-                splashColor: Colors.white.withOpacity(0.2),
-                highlightColor: Colors.white.withOpacity(0.1),
+                splashColor: Colors.white.withValues(alpha: 0.2),
+                highlightColor: Colors.white.withValues(alpha: 0.1),
                 child: Container(
                   width: double.infinity,
                   height: 56,
@@ -395,16 +398,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             strokeWidth: 3,
                           ),
                         )
-                      : Row(
+                      : const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.person_add_rounded,
                               color: Colors.white,
                               size: 22,
                             ),
-                            const SizedBox(width: 10),
-                            const Text(
+                            SizedBox(width: 10),
+                            Text(
                               'Sign Up',
                               style: TextStyle(
                                 fontSize: 17,
@@ -543,15 +546,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             color: const Color(0xFFF0F8F4),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFF2E8B22).withOpacity(0.2),
+              color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
               width: 1,
             ),
           ),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.info_outline_rounded,
-                color: const Color(0xFF2E8B22),
+                color: Color(0xFF2E8B22),
                 size: 22,
               ),
               const SizedBox(width: 12),
@@ -581,7 +584,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF2E8B22).withOpacity(0.4),
+                color: const Color(0xFF2E8B22).withValues(alpha: 0.4),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               ),
@@ -597,9 +600,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: double.infinity,
                 height: 56,
                 alignment: Alignment.center,
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.medical_services_rounded,
                       color: Colors.white,
@@ -732,6 +735,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  @override
   void dispose() {
     _nameCtrl.dispose();
     _phoneCtrl.dispose();

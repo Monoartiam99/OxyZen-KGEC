@@ -18,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordCtrl = TextEditingController();
   bool _obscurePassword = true;
   bool _loading = false;
+  bool _patientSelected = true;
+  bool _doctorSelected = false;
 
   void _doctorLogin() {
     Navigator.of(context).push(
@@ -43,23 +45,34 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  InputDecoration _inputDecoration(String hint, {Widget? suffixIcon}) =>
+  void _handleRoleTap({required bool patient}) {
+    setState(() {
+      _patientSelected = patient;
+      _doctorSelected = !patient;
+    });
+  }
+
+  InputDecoration _inputDecoration(String hint,
+          {Widget? suffixIcon, IconData? icon}) =>
       InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: const Color(0xFFF0F8F4),
+        fillColor: const Color(0xFFF8FFFE),
+        prefixIcon: icon != null
+            ? Icon(icon, color: const Color(0xFF2E8B22), size: 20)
+            : null,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0), width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0), width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFF2E8B22), width: 2),
         ),
         suffixIcon: suffixIcon,
@@ -68,108 +81,179 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFCFB),
+      backgroundColor: const Color(0xFFF5F9F7),
+      appBar: AppBar(
+        title: const Text(
+          'Login',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        foregroundColor: const Color(0xFF1A1A1A),
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Container(
-            height: screenHeight -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFFAFCFB), Color(0xFFF0F8F4)],
-              ),
-            ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Header with Logo
-                Flexible(
-                  flex: 2,
-                  child: Center(
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF2E8B22).withOpacity(0.15),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: ClipOval(
-                        child: SvgPicture.asset(
-                          'assets/logo.svg',
-                          fit: BoxFit.contain,
+                _buildLogoHeader(),
+                const SizedBox(height: 28),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 30,
+                          offset: const Offset(0, 10),
                         ),
-                      ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.04),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-
-                // Welcome Text
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Welcome Back',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF1A1A1A),
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Login to access your health dashboard',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Form Section
-                Flexible(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(28),
                       child: Form(
                         key: _formKey,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Email Field
+                            Column(
+                              children: [
+                                const Text(
+                                  'Welcome Back',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFF1A1A1A),
+                                    letterSpacing: 0.3,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Access your health dashboard securely',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF0F8F4),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: const Color(0xFF2E8B22)
+                                      .withValues(alpha: 0.18),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Choose your role',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          onTap: () =>
+                                              _handleRoleTap(patient: true),
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                value: _patientSelected,
+                                                onChanged: (_) =>
+                                                    _handleRoleTap(
+                                                        patient: true),
+                                                activeColor:
+                                                    const Color(0xFF2E8B22),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              const Text(
+                                                'Patient login',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          onTap: () =>
+                                              _handleRoleTap(patient: false),
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                value: _doctorSelected,
+                                                onChanged: (_) =>
+                                                    _handleRoleTap(
+                                                        patient: false),
+                                                activeColor:
+                                                    const Color(0xFF2E8B22),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              const Text(
+                                                'Doctor login',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
                             TextFormField(
                               controller: _emailCtrl,
-                              decoration: _inputDecoration('Email address'),
+                              decoration: _inputDecoration('Email address',
+                                  icon: Icons.mail_outline_rounded),
                               keyboardType: TextInputType.emailAddress,
                               validator: (v) => v == null || !v.contains('@')
                                   ? 'Enter valid email'
                                   : null,
                             ),
                             const SizedBox(height: 16),
-
-                            // Password Field
                             TextFormField(
                               controller: _passwordCtrl,
                               obscureText: _obscurePassword,
                               decoration: _inputDecoration(
                                 'Password',
+                                icon: Icons.lock_outline_rounded,
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword
@@ -186,85 +270,110 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ? 'Min 6 characters'
                                   : null,
                             ),
-                            const SizedBox(height: 20),
-
-                            // Doctor Login Button - Glassmorphism Style
+                            const SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Password recovery coming soon'),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                ),
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    color: Color(0xFF2E8B22),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                             Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                gradient: LinearGradient(
+                                borderRadius: BorderRadius.circular(14),
+                                gradient: const LinearGradient(
                                   colors: [
-                                    const Color(0xFF2E8B22).withOpacity(0.08),
-                                    const Color(0xFF3FA832).withOpacity(0.12),
+                                    Color(0xFF2E8B22),
+                                    Color(0xFF3FA832)
                                   ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                border: Border.all(
-                                  color:
-                                      const Color(0xFF2E8B22).withOpacity(0.3),
-                                  width: 2,
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.1),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
+                                        .withValues(alpha: 0.4),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 6),
+                                  ),
+                                  BoxShadow(
+                                    color: const Color(0xFF2E8B22)
+                                        .withValues(alpha: 0.2),
+                                    blurRadius: 28,
+                                    offset: const Offset(0, 10),
                                   ),
                                 ],
                               ),
                               child: Material(
                                 color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(14),
                                 child: InkWell(
-                                  onTap: _doctorLogin,
-                                  borderRadius: BorderRadius.circular(16),
+                                  onTap: _loading
+                                      ? null
+                                      : () => _doctorSelected
+                                          ? _doctorLogin()
+                                          : _login(),
+                                  borderRadius: BorderRadius.circular(14),
                                   splashColor:
-                                      const Color(0xFF2E8B22).withOpacity(0.1),
+                                      Colors.white.withValues(alpha: 0.2),
                                   highlightColor:
-                                      const Color(0xFF2E8B22).withOpacity(0.05),
+                                      Colors.white.withValues(alpha: 0.1),
                                   child: Container(
                                     width: double.infinity,
-                                    height: 54,
+                                    height: 56,
                                     alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(6),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2E8B22)
-                                                .withOpacity(0.15),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                    child: _loading
+                                        ? const SizedBox(
+                                            width: 24,
+                                            height: 24,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.login_rounded,
+                                                  color: Colors.white,
+                                                  size: 22),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                'Login',
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                  letterSpacing: 0.5,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          child: const Icon(
-                                            Icons.medical_services_rounded,
-                                            color: Color(0xFF2E8B22),
-                                            size: 18,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        const Text(
-                                          'Doctor Login',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFF2E8B22),
-                                            letterSpacing: 0.5,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 14),
-
-                            // OR Divider
+                            const SizedBox(height: 16),
                             Row(
                               children: [
                                 Expanded(
@@ -275,12 +384,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                  ),
+                                      horizontal: 12),
                                   child: Text(
-                                    'or',
+                                    'or continue with',
                                     style: TextStyle(
-                                      color: Colors.grey[600],
+                                      color: Colors.grey.shade600,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -294,9 +402,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 14),
-
-                            // Google Button
+                            const SizedBox(height: 12),
                             SizedBox(
                               width: double.infinity,
                               height: 48,
@@ -332,85 +438,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
-
-                            // Login Button - Modern Gradient Style now sits under Google
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF2E8B22),
-                                    Color(0xFF3FA832),
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.4),
-                                    blurRadius: 16,
-                                    offset: const Offset(0, 6),
-                                    spreadRadius: 0,
-                                  ),
-                                  BoxShadow(
-                                    color: const Color(0xFF2E8B22)
-                                        .withOpacity(0.2),
-                                    blurRadius: 32,
-                                    offset: const Offset(0, 12),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  onTap: _loading ? null : _login,
-                                  borderRadius: BorderRadius.circular(16),
-                                  splashColor: Colors.white.withOpacity(0.2),
-                                  highlightColor: Colors.white.withOpacity(0.1),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 56,
-                                    alignment: Alignment.center,
-                                    child: _loading
-                                        ? const SizedBox(
-                                            height: 24,
-                                            width: 24,
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                              strokeWidth: 3,
-                                            ),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.login_rounded,
-                                                color: Colors.white,
-                                                size: 22,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              const Text(
-                                                'Login',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                  letterSpacing: 0.8,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Apple Button
                             SizedBox(
                               width: double.infinity,
                               height: 48,
@@ -418,21 +445,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () {},
                                 icon: const Icon(
                                   Icons.apple,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   size: 18,
                                 ),
                                 label: const Text(
                                   'Continue with Apple',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.black,
+                                  backgroundColor: Colors.white,
                                   side: const BorderSide(
-                                    color: Colors.black,
+                                    color: Color(0xFFE0E0E0),
                                     width: 1.5,
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -441,48 +468,225 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF0F8F4),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: const Color(0xFF2E8B22)
+                                      .withValues(alpha: 0.18),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2E8B22)
+                                          .withValues(alpha: 0.14),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Icon(
+                                      Icons.medical_services_outlined,
+                                      color: Color(0xFF2E8B22),
+                                      size: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      'Verified doctor? Access the professional portal.',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.shade700,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: _doctorLogin,
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: const Color(0xFF2E8B22),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 10,
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Doctor login',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-
-                // Footer Section
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F8F4),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
+                      width: 1,
+                    ),
+                  ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Don't have an account? ",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                        ),
+                      const Icon(
+                        Icons.info_outline_rounded,
+                        color: Color(0xFF2E8B22),
+                        size: 22,
                       ),
-                      GestureDetector(
-                        onTap: widget.onSwitchToSignUp,
-                        child: const Text(
-                          'Sign Up',
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'We use secure verification to keep your account safe.',
                           style: TextStyle(
                             fontSize: 13,
-                            color: Color(0xFF2E8B22),
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.underline,
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 14),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: widget.onSwitchToSignUp,
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF2E8B22),
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLogoHeader() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 130,
+          height: 130,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [
+                const Color(0xFF2E8B22).withValues(alpha: 0.15),
+                const Color(0xFF2E8B22).withValues(alpha: 0.05),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.6, 1.0],
+            ),
+          ),
+        ),
+        Container(
+          width: 115,
+          height: 115,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFF2E8B22),
+                Color(0xFF3FA832),
+                Color(0xFF52C441),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF2E8B22).withValues(alpha: 0.4),
+                blurRadius: 24,
+                offset: const Offset(0, 10),
+              ),
+              BoxShadow(
+                color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
+                blurRadius: 40,
+                offset: const Offset(0, 20),
+                spreadRadius: -5,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: 108,
+          height: 108,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: 100,
+          height: 100,
+          decoration: const BoxDecoration(shape: BoxShape.circle),
+          child: ClipOval(
+            child: SvgPicture.asset(
+              'assets/logo.svg',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 10,
+          left: 15,
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  Colors.white.withValues(alpha: 0.3),
+                  Colors.white.withValues(alpha: 0.0),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

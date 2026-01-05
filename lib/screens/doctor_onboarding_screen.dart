@@ -296,12 +296,12 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF2E8B22).withOpacity(0.4),
+                  color: const Color(0xFF2E8B22).withValues(alpha: 0.4),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                 ),
                 BoxShadow(
-                  color: const Color(0xFF2E8B22).withOpacity(0.2),
+                  color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
                   blurRadius: 28,
                   offset: const Offset(0, 10),
                 ),
@@ -313,8 +313,8 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
               child: InkWell(
                 onTap: _appLoginLoading ? null : _submitDoctorLogin,
                 borderRadius: BorderRadius.circular(14),
-                splashColor: Colors.white.withOpacity(0.2),
-                highlightColor: Colors.white.withOpacity(0.1),
+                splashColor: Colors.white.withValues(alpha: 0.2),
+                highlightColor: Colors.white.withValues(alpha: 0.1),
                 child: Container(
                   width: double.infinity,
                   height: 56,
@@ -326,9 +326,9 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                           child: CircularProgressIndicator(
                               strokeWidth: 3, color: Colors.white),
                         )
-                      : Row(
+                      : const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(Icons.login_rounded,
                                 color: Colors.white, size: 22),
                             SizedBox(width: 10),
@@ -678,8 +678,8 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                           shape: BoxShape.circle,
                           gradient: RadialGradient(
                             colors: [
-                              const Color(0xFF2E8B22).withOpacity(0.15),
-                              const Color(0xFF2E8B22).withOpacity(0.05),
+                              const Color(0xFF2E8B22).withValues(alpha: 0.15),
+                              const Color(0xFF2E8B22).withValues(alpha: 0.05),
                               Colors.transparent,
                             ],
                             stops: const [0.0, 0.6, 1.0],
@@ -703,13 +703,15 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF2E8B22).withOpacity(0.4),
+                              color: const Color(0xFF2E8B22)
+                                  .withValues(alpha: 0.4),
                               blurRadius: 24,
                               offset: const Offset(0, 10),
                               spreadRadius: 0,
                             ),
                             BoxShadow(
-                              color: const Color(0xFF2E8B22).withOpacity(0.2),
+                              color: const Color(0xFF2E8B22)
+                                  .withValues(alpha: 0.2),
                               blurRadius: 40,
                               offset: const Offset(0, 20),
                               spreadRadius: -5,
@@ -726,7 +728,7 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -758,8 +760,8 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                             shape: BoxShape.circle,
                             gradient: RadialGradient(
                               colors: [
-                                Colors.white.withOpacity(0.3),
-                                Colors.white.withOpacity(0.0),
+                                Colors.white.withValues(alpha: 0.3),
+                                Colors.white.withValues(alpha: 0.0),
                               ],
                             ),
                           ),
@@ -776,13 +778,13 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withValues(alpha: 0.08),
                           blurRadius: 30,
                           offset: const Offset(0, 10),
                           spreadRadius: 0,
                         ),
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                           spreadRadius: 0,
@@ -832,15 +834,15 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
                       color: const Color(0xFFF0F8F4),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(0xFF2E8B22).withOpacity(0.2),
+                        color: const Color(0xFF2E8B22).withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.info_outline_rounded,
-                          color: const Color(0xFF2E8B22),
+                          color: Color(0xFF2E8B22),
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -911,7 +913,7 @@ class _DoctorOnboardingScreenState extends State<DoctorOnboardingScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 6,
                     offset: const Offset(0, -2))
               ]),
