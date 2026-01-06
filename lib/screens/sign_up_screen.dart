@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           // Gender Dropdown
           DropdownButtonFormField<String>(
-            value: _gender,
+            initialValue: _gender,
             items: const [
               DropdownMenuItem(value: 'Male', child: Text('Male')),
               DropdownMenuItem(value: 'Female', child: Text('Female')),
