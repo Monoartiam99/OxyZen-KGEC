@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/login_screen.dart';
 import 'screens/sign_up_screen.dart';
 import 'screens/app_onboarding_screen.dart';
+import 'screens/user_type_selection.dart';
 
 void main() => runApp(const SignUpProtoApp());
 
@@ -52,11 +53,22 @@ class AuthGateway extends StatefulWidget {
 
 class _AuthGatewayState extends State<AuthGateway> {
   bool _isSignUp = true;
+  String? _userType; // 'patient' or 'doctor'
 
   @override
   Widget build(BuildContext context) {
+    if (_userType == null) {
+      return UserTypeSelection(
+        onSelected: (type) => setState(() => _userType = type),
+      );
+    }
     return _isSignUp
-        ? SignUpScreen(onSwitchToLogin: () => setState(() => _isSignUp = false))
-        : LoginScreen(onSwitchToSignUp: () => setState(() => _isSignUp = true));
+        ? SignUpScreen(
+            onSwitchToLogin: () => setState(() => _isSignUp = false),
+            initialUserType: _userType,
+          )
+        : LoginScreen(
+            onSwitchToSignUp: () => setState(() => _isSignUp = true),
+          );
   }
 }

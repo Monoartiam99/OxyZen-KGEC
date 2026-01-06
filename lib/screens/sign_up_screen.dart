@@ -5,8 +5,13 @@ import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSwitchToLogin;
+  final String? initialUserType; // 'patient' or 'doctor'
 
-  const SignUpScreen({super.key, required this.onSwitchToLogin});
+  const SignUpScreen({
+    super.key,
+    required this.onSwitchToLogin,
+    this.initialUserType,
+  });
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -20,6 +25,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _gender = 'Male';
   bool _loading = false;
   String _userType = 'patient'; // 'patient' or 'doctor'
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialUserType != null) {
+      _userType = widget.initialUserType!;
+    }
+  }
 
   void _doctorSignUp() {
     Navigator.of(context).push(
