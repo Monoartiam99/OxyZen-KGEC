@@ -6,11 +6,13 @@ import 'home_screen.dart';
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSwitchToLogin;
   final String? initialUserType; // 'patient' or 'doctor'
+  final VoidCallback? onBackToRoleSelect; // optional callback to go back
 
   const SignUpScreen({
     super.key,
     required this.onSwitchToLogin,
     this.initialUserType,
+    this.onBackToRoleSelect,
   });
 
   @override
@@ -83,6 +85,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFCFB),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded,
+              color: Color(0xFF1A1A1A)),
+          onPressed: () {
+            if (widget.onBackToRoleSelect != null) {
+              widget.onBackToRoleSelect!();
+            } else {
+              Navigator.of(context).maybePop();
+            }
+          },
+          tooltip: 'Back',
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Sign Up',
+          style: TextStyle(
+            color: Color(0xFF1A1A1A),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(

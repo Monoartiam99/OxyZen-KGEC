@@ -66,6 +66,7 @@ class _AuthGatewayState extends State<AuthGateway> {
         ? SignUpScreen(
             onSwitchToLogin: () => setState(() => _isSignUp = false),
             initialUserType: _userType,
+            onBackToRoleSelect: () => setState(() => _userType = null),
           )
         : LoginScreen(
             onSwitchToSignUp: () => setState(() => _isSignUp = true),
