@@ -78,9 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFFAFCFB), Color(0xFFF0F8F4)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFFAFCFB),
+                Color(0xFFF0F8F4),
+                Color(0xFFE8F5EE),
+              ],
             ),
           ),
           child: Center(
@@ -90,14 +94,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Center(child: _buildLogoHeader()),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 32),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 440),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(24),
                         boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF2E8B22).withValues(alpha: 0.1),
+                            blurRadius: 40,
+                            offset: const Offset(0, 20),
+                            spreadRadius: 0,
+                          ),
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 30,
@@ -111,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(28),
+                        padding: const EdgeInsets.all(32),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -119,10 +129,42 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Column(
                                 children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          const Color(0xFF2E8B22)
+                                              .withValues(alpha: 0.1),
+                                          const Color(0xFF2E8B22)
+                                              .withValues(alpha: 0.05),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.verified_user,
+                                            color: Color(0xFF2E8B22), size: 18),
+                                        SizedBox(width: 6),
+                                        Text(
+                                          'Secure Login',
+                                          style: TextStyle(
+                                            color: Color(0xFF2E8B22),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
                                   const Text(
                                     'Welcome Back',
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 28,
                                       fontWeight: FontWeight.w800,
                                       color: Color(0xFF1A1A1A),
                                       letterSpacing: 0.3,
@@ -141,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 28),
                               TextFormField(
                                 controller: _emailCtrl,
                                 decoration: _inputDecoration('Email address',
@@ -200,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 20),
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14),
@@ -273,10 +315,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 14),
                               SizedBox(
                                 width: double.infinity,
-                                height: 50,
+                                height: 52,
                                 child: OutlinedButton.icon(
                                   onPressed: _doctorLogin,
                                   icon: const Icon(
@@ -306,7 +348,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 20),
                               Row(
                                 children: [
                                   Expanded(
@@ -335,112 +377,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 48,
-                                child: OutlinedButton.icon(
-                                  onPressed: () {},
-                                  icon: Image.network(
-                                    'https://www.gstatic.com/images/branding/product/1x/googleg_64dp.png',
-                                    width: 18,
-                                    height: 18,
-                                    errorBuilder: (c, e, s) => const Icon(
-                                      Icons.account_circle,
-                                      size: 18,
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _socialButton(
+                                      onPressed: () {},
+                                      icon: Image.network(
+                                        'https://www.gstatic.com/images/branding/product/1x/googleg_64dp.png',
+                                        width: 20,
+                                        height: 20,
+                                        errorBuilder: (c, e, s) => const Icon(
+                                          Icons.account_circle,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      label: 'Google',
                                     ),
                                   ),
-                                  label: const Text(
-                                    'Continue with Google',
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: _socialButton(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                        Icons.apple,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      label: 'Apple',
                                     ),
                                   ),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFF2F2F2),
-                                    side: const BorderSide(
-                                      color: Color(0xFFE0E0E0),
-                                      width: 1.5,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
+                                ],
                               ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 48,
-                                child: OutlinedButton.icon(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.apple,
-                                    color: Colors.black,
-                                    size: 18,
-                                  ),
-                                  label: const Text(
-                                    'Continue with Apple',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    side: const BorderSide(
-                                      color: Color(0xFFE0E0E0),
-                                      width: 1.5,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // const SizedBox(height: 12),
-                              // Container(
-                              //   padding: const EdgeInsets.all(12),
-                              //   decoration: BoxDecoration(
-                              //     color: const Color(0xFFF0F8F4),
-                              //     borderRadius: BorderRadius.circular(12),
-                              //     border: Border.all(
-                              //       color: const Color(0xFF2E8B22)
-                              //           .withValues(alpha: 0.18),
-                              //     ),
-                              //   ),
-                              //   child: Row(
-                              //     children: [
-                              //       Container(
-                              //         padding: const EdgeInsets.all(6),
-                              //         decoration: BoxDecoration(
-                              //           color: const Color(0xFF2E8B22)
-                              //               .withValues(alpha: 0.14),
-                              //           borderRadius: BorderRadius.circular(10),
-                              //         ),
-                              //         child: const Icon(
-                              //           Icons.medical_services_outlined,
-                              //           color: Color(0xFF2E8B22),
-                              //           size: 18,
-                              //         ),
-                              //       ),
-                              //       const SizedBox(width: 12),
-                              //       Expanded(
-                              //         child: Text(
-                              //           'Verified doctor? Access the professional portal.',
-                              //           style: TextStyle(
-                              //             fontSize: 13,
-                              //             color: Colors.grey.shade700,
-                              //             fontWeight: FontWeight.w500,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -509,6 +477,44 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _socialButton({
+    required VoidCallback onPressed,
+    required Widget icon,
+    required String label,
+  }) {
+    return SizedBox(
+      height: 48,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          side: BorderSide(
+            color: Colors.grey.shade300,
+            width: 1.5,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );
